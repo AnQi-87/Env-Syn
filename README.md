@@ -27,10 +27,39 @@ Results: We propose Env-Syn, a framework for modeling drug-drug-cell interaction
 ```
 
 ## 4. Run
-- Run the utils_test.py file first
+- Precompute MoLFormer features if not already done:
 
-`python utils_test.py`
+`python train.py --precompute_mol`
 
-- Run the train.py file then
+- Run the `train.py` file then (Default parameters used)
 
-`python train.py`
+```bash
+python train.py \
+  --datafile data/new_labels_0_10.csv \
+  --smiles data/smiles.csv \
+  --cellfile data/cell_features_954.csv \
+  --MoLFormer data/processed/MoLFormer.npy \
+  --dataset_name new_labels_0_10 \
+  --epochs 50 \
+  --batch_size 512 \
+  --lr 1e-4 \
+  --seed 2023 \
+  --hidden_dim 512 \
+```
+The running results can be viewed in `Env-Syn.log`.
+
+## 5. Inductive Datasets Setting
+
+### 5.1 Leave‑One‑Out cross‑validation
+| Strategy | Train file | Test file |
+|----------|---------------|---------------|
+| Leave‑tissue‑out | `leave_breast.csv` | `breast.csv` |
+| Leave‑combination‑out | `leave_c00.csv` | `c00.csv` |
+| Leave‑drug‑out | `leave_d00.csv` | `d00.csv` |
+> **Note**: The above filenames are examples.
+
+### 5.2 Independent validation
+  ```bash
+  Test file: independent/independent_input.csv
+  ```
+
